@@ -35,7 +35,7 @@
             <div nz-col [nzSpan]="this.playerSpan">
               <div class="card-area">
                 <ng-container *ngFor="let card of handCards; let i = index">
-                  <div class="card-each" [style.left]="getCardPosition(i)">
+                  <div class="card-each" [style.left]="getCardPosition(i)" [style.z-index]="i + 1">
                     <img [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'" class="card-img"/>
                   </div>
                 </ng-container>
@@ -50,7 +50,7 @@
             <div class="card-area">
 
               <ng-container *ngFor="let card of hitStack; let i = index">
-                <div class="card-each" [style.left]="getCardPosition(i)">
+                <div class="card-each" [style.left]="getCardPosition(i)" [style.z-index]="i + 1">
                   <img [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'" class="card-img"/>
                 </div>
               </ng-container>
