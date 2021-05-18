@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {BlackJackService} from './services/black-jack.service';
 
 @Component({
@@ -7,6 +7,9 @@ import {BlackJackService} from './services/black-jack.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+
+  @ViewChild('currentCountText') input: ElementRef;
+
   title = 'jack';
 
   public numPlayers = 2;
@@ -165,6 +168,10 @@ export class AppComponent implements OnInit {
     } else {
       this.currentRoundIndex++;
     }
+    if (this.input) {
+      this.input.nativeElement.focus();
+    }
+
 
 
     this.currentRound = [];

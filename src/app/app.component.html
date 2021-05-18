@@ -58,6 +58,7 @@
             </nz-form-label>
             <nz-form-control>
               <input
+                #currentCountText
                 name="current_count"
                 [(ngModel)]="lastGuessedCount"
                 [style.border]="(invalidCurrentCount) ? 'solid 1px red': ''"
