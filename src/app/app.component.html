@@ -6,12 +6,22 @@
       <nz-select [(ngModel)]="numDecks" nzPlaceHolder="Number of Players" (ngModelChange)="changedDecksNum()">
         <nz-option [nzValue]="1" [nzLabel]="'1 Deck'" ></nz-option>
         <nz-option [nzValue]="2" [nzLabel]="'2 Decks'" ></nz-option>
+        <nz-option [nzValue]="3" [nzLabel]="'3 Decks'" ></nz-option>
+        <nz-option [nzValue]="4" [nzLabel]="'4 Decks'" ></nz-option>
+        <nz-option [nzValue]="5" [nzLabel]="'5 Decks'" ></nz-option>
+        <nz-option [nzValue]="6" [nzLabel]="'6 Decks'" ></nz-option>
+        <nz-option [nzValue]="7" [nzLabel]="'7 Decks'" ></nz-option>
+        <nz-option [nzValue]="8" [nzLabel]="'8 Decks'" ></nz-option>
       </nz-select>
       &nbsp;
       <nz-select [(ngModel)]="numPlayers" nzPlaceHolder="Number of Players" (ngModelChange)="changedPlayersNum()">
         <nz-option [nzValue]="2" [nzLabel]="'2 Players'" ></nz-option>
         <nz-option [nzValue]="3" [nzLabel]="'3 Players'" ></nz-option>
         <nz-option [nzValue]="4" [nzLabel]="'4 Players'" ></nz-option>
+        <nz-option [nzValue]="5" [nzLabel]="'5 Players'" ></nz-option>
+        <nz-option [nzValue]="6" [nzLabel]="'6 Players'" ></nz-option>
+        <nz-option [nzValue]="7" [nzLabel]="'7 Players'" ></nz-option>
+        <nz-option [nzValue]="8" [nzLabel]="'8 Players'" ></nz-option>
       </nz-select>
       &nbsp;
       <button nz-button nzType="default" (click)="restartGame()">Restart</button>

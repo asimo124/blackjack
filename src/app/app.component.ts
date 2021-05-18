@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
 
   public title = 'jack';
 
-  public maxCardsNum = 103;
+  public maxCardsNum = 0;
 
   public numPlayers = 2;
   public playerSpan;
@@ -26,13 +26,14 @@ export class AppComponent implements OnInit {
   public dealCount = 0;
   public runningCount = 0;
   public guessedRunningCount = 0;
-  public lastGuessedCount = 0;
+  public lastGuessedCount = null;
   public currentCount = null;
   public invalidCurrentCount = false;
 
   public hitStack: any[] = [];
   public playedRounds = [];
   public currentRound = [];
+  public currentHitRound = [];
   public currentRoundIndex = 0;
   public roundsGuessedCount = [];
   public roundsGuessedRunningCount = [];
@@ -59,6 +60,7 @@ export class AppComponent implements OnInit {
       this.deck = this.blackJackService.shuffleDeck(this.numDecks);
     }
     this.playedRounds = [];
+    this.currentRound = [];
     this.canShowReplay = false;
     this.isReplayingDeck = false;
 
@@ -70,7 +72,19 @@ export class AppComponent implements OnInit {
         this.playerSpan = 6;
         break;
       case 4:
+        this.playerSpan = 5;
+        break;
+      case 5:
         this.playerSpan = 4;
+        break;
+      case 6:
+        this.playerSpan = 4;
+        break;
+      case 7:
+        this.playerSpan = 3;
+        break;
+      case 8:
+        this.playerSpan = 3;
         break;
     }
 
@@ -116,7 +130,7 @@ export class AppComponent implements OnInit {
     this.dealNextHand();
   }
 
-  hasFinishedHand() {
+  hasNotFinishedHand() {
 
     if (this.currentDeckIndex < this.maxCardsNum) {
       return true;
@@ -126,10 +140,6 @@ export class AppComponent implements OnInit {
 
   canDealNextHand() {
 
-    // return false;
-
-    // console.log('this.currentDeckIndex: ', this.currentDeckIndex);
-
     if (this.currentDeckIndex < this.maxCardsNum + 1) {
       return true;
     }
@@ -138,7 +148,7 @@ export class AppComponent implements OnInit {
 
   canShowReplayButton() {
 
-    if (!this.hasFinishedHand() && this.playedRounds.length === this.roundsGuessedCount.length) {
+    if (!this.hasNotFinishedHand() && this.playedRounds.length === this.roundsGuessedCount.length) {
       this.canShowReplay = true;
     } else {
       this.canShowReplay = false;
@@ -152,35 +162,42 @@ export class AppComponent implements OnInit {
       didPushRound = true;
       this.playedRounds.push(this.currentRound);
     }
-    if (this.currentRound.length > 0 || !this.canDealNextHand()) {
-      if (!didPushRound) {
+    if (this.currentRound.length > 0) {
+      if (!didPushRound && this.hasNotFinishedHand()) {
         this.playedRounds.push(this.currentRound);
       }
+    }
 
-      let guessedRoundCount = 0;
-      this.roundsGuessedRunningCount.push(this.lastGuessedCount);
-      if (this.roundsGuessedRunningCount.length > 1) {
-        guessedRoundCount = this.lastGuessedCount - this.roundsGuessedRunningCount[this.roundsGuessedRunningCount.length - 2];
-      } else {
-        guessedRoundCount = this.lastGuessedCount;
+    if (this.currentRound.length > 0 || !this.canDealNextHand()) {
+
+      if (this.validateCurrentCount()) {
+
+        let guessedRoundCount = 0;
+        this.roundsGuessedRunningCount.push(this.lastGuessedCount);
+        if (this.roundsGuessedRunningCount.length > 1) {
+          guessedRoundCount = this.lastGuessedCount - this.roundsGuessedRunningCount[this.roundsGuessedRunningCount.length - 2];
+        } else {
+          guessedRoundCount = this.lastGuessedCount;
+        }
+        this.roundsGuessedCount.push(guessedRoundCount);
+
+        this.roundsCorrectCount.push(this.dealCount);
+        this.roundsCorrectRunningCount.push(this.runningCount);
       }
-      this.roundsGuessedCount.push(guessedRoundCount);
-
-      this.roundsCorrectCount.push(this.dealCount);
-      this.roundsCorrectRunningCount.push(this.runningCount);
 
       this.lastGuessedCount = null;
     }
     if (!this.canDealNextHand()) {
       const self = this;
-      setTimeout(function() {
-        self.canShowReplayButton();
-      }, 750);
+      // setTimeout(() => {
+      self.canShowReplayButton();
+      // }, 1500);
 
+      // this.currentRoundIndex++;
       return;
-    } else {
-      this.currentRoundIndex++;
     }
+    this.currentRoundIndex++;
+
     if (this.input) {
       this.input.nativeElement.focus();
     }
@@ -239,9 +256,10 @@ export class AppComponent implements OnInit {
 
   hitPlayer() {
 
+    let nextCard = null;
     if (this.hitStack.length < 30) {
       if (this.canDealNextHand()) {
-        const nextCard = this.deck[this.currentDeckIndex];
+        nextCard = this.deck[this.currentDeckIndex];
         this.hitStack.push(nextCard);
         this.currentRound.push(nextCard);
 
@@ -250,8 +268,20 @@ export class AppComponent implements OnInit {
         this.runningCount += eachValue;
 
         this.currentDeckIndex++;
+        /*/
+        if (this.currentRoundIndex > 0) {
+
+          const curRoundIndex = this.currentRoundIndex;
+
+          if (this.playedRounds[curRoundIndex]) {
+            (this.playedRounds[curRoundIndex]).push(nextCard);
+          }
+        }
+        //*/
+
       } else {
-        // this.playedRounds.push(this.currentRound);
+
+        // this.playedRounds[this.currentRoundIndex].push(nextCard);
       }
     }
   }

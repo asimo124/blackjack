@@ -49,39 +49,23 @@ export class BlackJackService {
           value: this.values[randomValue]
         };
 
-        if (numDecks === 1) {
-          let doesExist = false;
-          this.deck.forEach(function getItem(item) {
-            if (eachDeck.suit === item.suit && eachDeck.value === item.value) {
-              doesExist = true;
-              return;
-            }
-          });
-
-          if (!doesExist) {
-            this.deck.push(eachDeck);
-            // suiteValuePairs.push(eachDeck.suit + '~' + eachDeck.value);
-            break;
+        let existsCorrectTimes = false;
+        let existsCount = 0;
+        this.deck.forEach(function getItem(item) {
+          if (eachDeck.suit === item.suit && eachDeck.value === item.value) {
+            existsCount++;
           }
-        } else if (numDecks === 2) {
-
-          let existsOneOrNoneTimes = false;
-          let existsCount = 0;
-          this.deck.forEach(function getItem(item) {
-            if (eachDeck.suit === item.suit && eachDeck.value === item.value) {
-              existsCount++;
-            }
-          });
-          if (existsCount < 2) {
-            existsOneOrNoneTimes = true;
-          }
-
-          if (existsOneOrNoneTimes) {
-            this.deck.push(eachDeck);
-            // suiteValuePairs.push(eachDeck.suit + '~' + eachDeck.value);
-            break;
-          }
+        });
+        if (existsCount < numDecks) {
+          existsCorrectTimes = true;
         }
+
+        if (existsCorrectTimes) {
+          this.deck.push(eachDeck);
+          // suiteValuePairs.push(eachDeck.suit + '~' + eachDeck.value);
+          break;
+        }
+
       }
     }
     return this.deck;
@@ -108,10 +92,10 @@ export class BlackJackService {
       default:
         retValue = 0;
     }
-    if (numDecks) {
-      return retValue;
-    } else {
+    // if (numDecks) {
+    return retValue;
+    /*} else {
       return retValue / 2;
-    }
+    }*/
   }
 }
