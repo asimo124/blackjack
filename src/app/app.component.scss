@@ -11,7 +11,15 @@ nz-content {
   height: 100vh;
 }
 
-.header-row, .top-row, .middle-row, .bottom-row {
+.card-img {
+  height: 18vh;
+}
+
+h4 {
+  color: white;
+}
+
+.header-row, .top-row, .middle-row, .bottom-row, .main-row {
   background-color: #1fad45;
   width: 98vw;
   margin-left: 1vw;
@@ -28,11 +36,20 @@ nz-content {
   height: 22vh;
 }
 
+.main-row {
+  height: 44vh;
+}
+
 .bottom-row {
   height: 40vh;
 }
 
 .body-text {
  color: white;
+}
+
+.replay-text {
+  /*color: white;*/
+  font-weight: bold;
 }
 
