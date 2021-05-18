@@ -172,7 +172,11 @@ export class AppComponent implements OnInit {
       this.lastGuessedCount = null;
     }
     if (!this.canDealNextHand()) {
-      this.canShowReplayButton();
+      const self = this;
+      setTimeout(function() {
+        self.canShowReplayButton();
+      }, 750);
+
       return;
     } else {
       this.currentRoundIndex++;
