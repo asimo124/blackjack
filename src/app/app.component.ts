@@ -78,13 +78,13 @@ export class AppComponent implements OnInit {
         this.playerSpan = 4;
         break;
       case 6:
-        this.playerSpan = 4;
+        this.playerSpan = 3;
         break;
       case 7:
         this.playerSpan = 3;
         break;
       case 8:
-        this.playerSpan = 3;
+        this.playerSpan = 2;
         break;
     }
 
