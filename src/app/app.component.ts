@@ -113,13 +113,20 @@ export class AppComponent implements OnInit {
     this.dealNextHand();
   }
 
+  hasFinishedHand() {
+    if (this.currentDeckIndex < 51) {
+      return true;
+    }
+    return false;
+  }
+
   canDealNextHand() {
 
     // return false;
 
     // console.log('this.currentDeckIndex: ', this.currentDeckIndex);
 
-    if (this.currentDeckIndex < 51) {
+    if (this.currentDeckIndex < 52) {
       return true;
     }
     return false;
@@ -131,7 +138,7 @@ export class AppComponent implements OnInit {
     console.log('this.roundsGuessedCount.lenghtn: ', this.roundsGuessedCount.length);
     console.log('this.currentRoundIndex: ', this.currentRoundIndex);
     console.log('this.canDealNextHand: ', this.canDealNextHand());
-    if (!this.canDealNextHand() && this.playedRounds.length === this.roundsGuessedCount.length) {
+    if (!this.hasFinishedHand() && this.playedRounds.length === this.roundsGuessedCount.length) {
       this.canShowReplay = true;
     } else {
       this.canShowReplay = false;
@@ -153,9 +160,14 @@ export class AppComponent implements OnInit {
         this.playedRounds.push(this.currentRound);
       }
 
-      this.roundsGuessedCount.push(this.lastGuessedCount);
-      this.guessedRunningCount += this.lastGuessedCount;
-      this.roundsGuessedRunningCount.push(this.guessedRunningCount);
+      let guessedRoundCount = 0;
+      this.roundsGuessedRunningCount.push(this.lastGuessedCount);
+      if (this.roundsGuessedRunningCount.length > 1) {
+        guessedRoundCount = this.lastGuessedCount - this.roundsGuessedRunningCount[this.roundsGuessedRunningCount.length - 2];
+      } else {
+        guessedRoundCount = this.lastGuessedCount;
+      }
+      this.roundsGuessedCount.push(guessedRoundCount);
 
       this.roundsCorrectCount.push(this.dealCount);
       this.roundsCorrectRunningCount.push(this.runningCount);
