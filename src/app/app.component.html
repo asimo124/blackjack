@@ -87,7 +87,7 @@
 
         <form nz-form nzLayout='vertical' nz-row nzJustify="end" [nzGutter]="[0, 0]">
           <nz-form-item nz-col nzSpan="4">
-            <nz-form-label><span class="body-text" >Round {{ currentRoundIndex }}</span></nz-form-label>
+            <nz-form-label><span class="body-text" >Round {{ currentRoundIndex + 1 }}</span></nz-form-label>
             <nz-form-control [style.padding-left]="'20px'">
               <button nz-button nzType="default" (click)="moveFirst()" >Start</button>
             </nz-form-control>

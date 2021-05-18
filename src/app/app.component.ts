@@ -148,7 +148,7 @@ export class AppComponent implements OnInit {
       didPushRound = true;
       this.playedRounds.push(this.currentRound);
     }
-    if (this.currentRound.length > 0) {
+    if (this.currentRound.length > 0 || !this.canDealNextHand()) {
       if (!didPushRound) {
         this.playedRounds.push(this.currentRound);
       }
@@ -161,6 +161,8 @@ export class AppComponent implements OnInit {
       this.roundsCorrectRunningCount.push(this.runningCount);
 
       this.lastGuessedCount = null;
+
+      console.log('this.roundsGuessedCount: ', this.roundsGuessedCount);
     }
     if (!this.canDealNextHand()) {
       this.canShowReplayButton();
@@ -215,8 +217,6 @@ export class AppComponent implements OnInit {
     this.playerHands.push(eachPlayerHand);
 
     this.runningCount += this.dealCount;
-
-    console.log('runningCount ' + this.logCount + ': ', this.runningCount);
   }
 
   changedPlayersNum() {
@@ -244,11 +244,15 @@ export class AppComponent implements OnInit {
   }
 
   replayDeck() {
+    console.log('currentRoundIndex: ', this.currentRoundIndex);
+    console.log('roundsGuessedCount[currentRoundIndex] at 2: ', this.roundsGuessedCount[this.currentRoundIndex]);
+    console.log('roundsGuessedCount at 2: ', this.roundsGuessedCount);
+    this.currentRoundIndex--;
     this.isReplayingDeck = true;
   }
 
   movePrevious() {
-    if (this.currentRoundIndex > 1) {
+    if (this.currentRoundIndex > 0) {
       this.currentRoundIndex--;
     }
   }
@@ -260,7 +264,7 @@ export class AppComponent implements OnInit {
   }
 
   moveFirst() {
-    this.currentRoundIndex = 1;
+    this.currentRoundIndex = 0;
   }
 
   moveLast() {
