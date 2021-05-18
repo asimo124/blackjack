@@ -10,14 +10,17 @@ export class AppComponent implements OnInit {
 
   @ViewChild('currentCountText') input: ElementRef;
 
-  title = 'jack';
+  public title = 'jack';
+
+  public maxCardsNum = 103;
 
   public numPlayers = 2;
   public playerSpan;
 
+  public numDecks = 1;
   public deck: any[] = [];
 
-  private currentDeckIndex = 0;
+  public currentDeckIndex = 0;
   public playerHands: any[] = [];
 
   public dealCount = 0;
@@ -46,14 +49,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.deck = this.blackJackService.shuffleDeck();
-    this.startGame();
+    this.maxCardsNum = (this.numDecks * 52) - 1;
+    this.startGame(true);
   }
 
   startGame(doShuffle = false) {
 
     if (doShuffle) {
-      this.deck = this.blackJackService.shuffleDeck();
+      this.deck = this.blackJackService.shuffleDeck(this.numDecks);
     }
     this.playedRounds = [];
     this.canShowReplay = false;
@@ -96,7 +99,7 @@ export class AppComponent implements OnInit {
     if (isNaN(this.lastGuessedCount)) {
       return false;
     }
-    const lastGuessedCount = parseInt(String(this.lastGuessedCount), 10);
+    const lastGuessedCount = parseFloat(String(this.lastGuessedCount));
     this.lastGuessedCount = lastGuessedCount;
     return true;
   }
@@ -114,7 +117,8 @@ export class AppComponent implements OnInit {
   }
 
   hasFinishedHand() {
-    if (this.currentDeckIndex < 51) {
+
+    if (this.currentDeckIndex < this.maxCardsNum) {
       return true;
     }
     return false;
@@ -126,7 +130,7 @@ export class AppComponent implements OnInit {
 
     // console.log('this.currentDeckIndex: ', this.currentDeckIndex);
 
-    if (this.currentDeckIndex < 52) {
+    if (this.currentDeckIndex < this.maxCardsNum + 1) {
       return true;
     }
     return false;
@@ -134,21 +138,14 @@ export class AppComponent implements OnInit {
 
   canShowReplayButton() {
 
-    console.log('this.playedRounds.lenghtn: ', this.playedRounds.length);
-    console.log('this.roundsGuessedCount.lenghtn: ', this.roundsGuessedCount.length);
-    console.log('this.currentRoundIndex: ', this.currentRoundIndex);
-    console.log('this.canDealNextHand: ', this.canDealNextHand());
     if (!this.hasFinishedHand() && this.playedRounds.length === this.roundsGuessedCount.length) {
       this.canShowReplay = true;
     } else {
       this.canShowReplay = false;
     }
-    console.log('this.canShowReplay: ', this.canShowReplay);
   }
 
   dealNextHand() {
-
-    console.log('this.currentRoundIndex: ', this.currentRoundIndex);
 
     let didPushRound = false;
     if (!this.canDealNextHand()) {
@@ -173,8 +170,6 @@ export class AppComponent implements OnInit {
       this.roundsCorrectRunningCount.push(this.runningCount);
 
       this.lastGuessedCount = null;
-
-      console.log('this.roundsGuessedCount: ', this.roundsGuessedCount);
     }
     if (!this.canDealNextHand()) {
       this.canShowReplayButton();
@@ -185,8 +180,6 @@ export class AppComponent implements OnInit {
     if (this.input) {
       this.input.nativeElement.focus();
     }
-
-
 
     this.currentRound = [];
     this.hitStack = [];
@@ -202,7 +195,7 @@ export class AppComponent implements OnInit {
         if (this.canDealNextHand()) {
 
           nextCard = this.deck[this.currentDeckIndex];
-          eachValue = this.blackJackService.getCardValue(nextCard.value);
+          eachValue = this.blackJackService.getCardValue(nextCard.value, this.numDecks);
           this.dealCount += eachValue;
           eachPlayerHand.push(nextCard);
           this.currentRound.push(nextCard);
@@ -217,7 +210,7 @@ export class AppComponent implements OnInit {
     eachPlayerHand = [];
     if (this.canDealNextHand()) {
       nextCard = this.deck[this.currentDeckIndex];
-      eachValue = this.blackJackService.getCardValue(nextCard.value);
+      eachValue = this.blackJackService.getCardValue(nextCard.value, this.numDecks);
       this.dealCount += eachValue;
       eachPlayerHand.push(nextCard);
       this.currentRound.push(nextCard);
@@ -232,7 +225,11 @@ export class AppComponent implements OnInit {
   }
 
   changedPlayersNum() {
-    this.deck = this.blackJackService.shuffleDeck();
+    this.startGame(true);
+  }
+
+  changedDecksNum() {
+    this.maxCardsNum = (this.numDecks * 52) - 1;
     this.startGame(true);
   }
 
@@ -244,7 +241,7 @@ export class AppComponent implements OnInit {
         this.hitStack.push(nextCard);
         this.currentRound.push(nextCard);
 
-        const eachValue = this.blackJackService.getCardValue(nextCard.value);
+        const eachValue = this.blackJackService.getCardValue(nextCard.value, this.numDecks);
         this.dealCount += eachValue;
         this.runningCount += eachValue;
 
@@ -256,9 +253,6 @@ export class AppComponent implements OnInit {
   }
 
   replayDeck() {
-    console.log('currentRoundIndex: ', this.currentRoundIndex);
-    console.log('roundsGuessedCount[currentRoundIndex] at 2: ', this.roundsGuessedCount[this.currentRoundIndex]);
-    console.log('roundsGuessedCount at 2: ', this.roundsGuessedCount);
     this.currentRoundIndex--;
     this.isReplayingDeck = true;
   }
@@ -298,5 +292,4 @@ export class AppComponent implements OnInit {
       return '#fcb7a9';
     }
   }
-
 }

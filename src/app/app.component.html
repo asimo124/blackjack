@@ -3,6 +3,11 @@
     <div class="header-row">
       <button nz-button nzType="danger" (click)="hitPlayer()">Hit Me!</button>
       &nbsp;
+      <nz-select [(ngModel)]="numDecks" nzPlaceHolder="Number of Players" (ngModelChange)="changedDecksNum()">
+        <nz-option [nzValue]="1" [nzLabel]="'1 Deck'" ></nz-option>
+        <nz-option [nzValue]="2" [nzLabel]="'2 Decks'" ></nz-option>
+      </nz-select>
+      &nbsp;
       <nz-select [(ngModel)]="numPlayers" nzPlaceHolder="Number of Players" (ngModelChange)="changedPlayersNum()">
         <nz-option [nzValue]="2" [nzLabel]="'2 Players'" ></nz-option>
         <nz-option [nzValue]="3" [nzLabel]="'3 Players'" ></nz-option>
@@ -49,7 +54,7 @@
       <ng-container *ngIf="!isReplayingDeck">
         <form nz-form nzLayout='vertical' nz-row>
           <nz-form-item nz-col nzSpan="8">
-            <nz-form-label><span class="body-text" >Round {{ currentRoundIndex }}</span></nz-form-label>
+            <nz-form-label><span class="body-text" >Round {{ currentRoundIndex }} - Card {{ currentDeckIndex }}</span></nz-form-label>
             <nz-form-control>&nbsp;</nz-form-control>
           </nz-form-item>
           <nz-form-item nz-col nzSpan="6">

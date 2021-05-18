@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class BlackJackService {
 
+  // private numberOfCards = 52;
+  private numberOfCards = 104;
   private deck: any[];
 
   private suites = [
@@ -32,11 +34,13 @@ export class BlackJackService {
 
   constructor() { }
 
-  shuffleDeck() {
+  shuffleDeck(numDecks = 1) {
+
+    this.numberOfCards = numDecks * 52;
 
     this.deck = [];
     // const suiteValuePairs = [];
-    for (let i = 0; i < 52; i++) {
+    for (let i = 0; i < this.numberOfCards; i++) {
       while (true) {
         const randomValue = Math.floor(Math.random() * 13);
         const randomSuit = Math.floor(Math.random() * 4);
@@ -44,24 +48,46 @@ export class BlackJackService {
           suit: this.suites[randomSuit],
           value: this.values[randomValue]
         };
-        let doesExist = false;
-        this.deck.forEach(function getItem(item) {
-          if (eachDeck.suit === item.suit && eachDeck.value === item.value) {
-            doesExist = true;
-            return;
+
+        if (numDecks === 1) {
+          let doesExist = false;
+          this.deck.forEach(function getItem(item) {
+            if (eachDeck.suit === item.suit && eachDeck.value === item.value) {
+              doesExist = true;
+              return;
+            }
+          });
+
+          if (!doesExist) {
+            this.deck.push(eachDeck);
+            // suiteValuePairs.push(eachDeck.suit + '~' + eachDeck.value);
+            break;
           }
-        });
-        if (!doesExist) {
-          this.deck.push(eachDeck);
-          // suiteValuePairs.push(eachDeck.suit + '~' + eachDeck.value);
-          break;
+        } else if (numDecks === 2) {
+
+          let existsOneOrNoneTimes = false;
+          let existsCount = 0;
+          this.deck.forEach(function getItem(item) {
+            if (eachDeck.suit === item.suit && eachDeck.value === item.value) {
+              existsCount++;
+            }
+          });
+          if (existsCount < 2) {
+            existsOneOrNoneTimes = true;
+          }
+
+          if (existsOneOrNoneTimes) {
+            this.deck.push(eachDeck);
+            // suiteValuePairs.push(eachDeck.suit + '~' + eachDeck.value);
+            break;
+          }
         }
       }
     }
     return this.deck;
   }
 
-  getCardValue(value) {
+  getCardValue(value, numDecks = 1) {
 
     let retValue = 0;
     switch (value) {
@@ -82,6 +108,10 @@ export class BlackJackService {
       default:
         retValue = 0;
     }
-    return retValue;
+    if (numDecks) {
+      return retValue;
+    } else {
+      return retValue / 2;
+    }
   }
 }
