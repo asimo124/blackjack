@@ -23,9 +23,13 @@
         <div nz-row >
           <ng-container *ngFor="let handCards of playerHands" >
             <div nz-col [nzSpan]="this.playerSpan">
-              <ng-container *ngFor="let card of handCards">
-                <img [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'" class="card-img"/>
-              </ng-container>
+              <div class="card-area">
+                <ng-container *ngFor="let card of handCards; let i = index">
+                  <div class="card-each" [style.left]="getCardPosition(i)">
+                    <img [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'" class="card-img"/>
+                  </div>
+                </ng-container>
+              </div>
             </div>
           </ng-container>
         </div>
@@ -33,9 +37,15 @@
       <div class="middle-row">
         <div nz-row >
           <div nz-col [nzSpan]="24">
-            <ng-container *ngFor="let card of hitStack">
-              <img [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'" class="card-img"/>
-            </ng-container>
+            <div class="card-area">
+
+              <ng-container *ngFor="let card of hitStack; let i = index">
+                <div class="card-each" [style.left]="getCardPosition(i)">
+                  <img [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'" class="card-img"/>
+                </div>
+              </ng-container>
+
+            </div>
           </div>
         </div>
       </div>

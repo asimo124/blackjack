@@ -235,7 +235,7 @@ export class AppComponent implements OnInit {
 
   hitPlayer() {
 
-    if (this.hitStack.length < 13) {
+    if (this.hitStack.length < 30) {
       if (this.canDealNextHand()) {
         const nextCard = this.deck[this.currentDeckIndex];
         this.hitStack.push(nextCard);
@@ -291,5 +291,9 @@ export class AppComponent implements OnInit {
     } else {
       return '#fcb7a9';
     }
+  }
+
+  getCardPosition(index) {
+    return String((index) * 20) + 'px';
   }
 }
