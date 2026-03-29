@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
+import { DeckCard } from '../models/deck-card';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlackJackService {
 
-  // private numberOfCards = 52;
   private numberOfCards = 104;
-  private deck: any[];
+  private deck: DeckCard[] = [];
 
   private suites = [
     'SPADE',
@@ -34,22 +34,19 @@ export class BlackJackService {
 
   constructor() { }
 
-  shuffleDeck(numDecks = 1) {
-
+  shuffleDeck(numDecks = 1): DeckCard[] {
     this.numberOfCards = numDecks * 52;
 
     this.deck = [];
-    // const suiteValuePairs = [];
     for (let i = 0; i < this.numberOfCards; i++) {
       while (true) {
         const randomValue = Math.floor(Math.random() * 13);
         const randomSuit = Math.floor(Math.random() * 4);
-        const eachDeck = {
+        const eachDeck: DeckCard = {
           suit: this.suites[randomSuit],
           value: this.values[randomValue]
         };
 
-        let existsCorrectTimes = false;
         let existsCount = 0;
         this.deck.forEach(function getItem(item) {
           if (eachDeck.suit === item.suit && eachDeck.value === item.value) {
@@ -57,10 +54,6 @@ export class BlackJackService {
           }
         });
         if (existsCount < numDecks) {
-          existsCorrectTimes = true;
-        }
-
-        if (existsCorrectTimes) {
           this.deck.push(eachDeck);
           // suiteValuePairs.push(eachDeck.suit + '~' + eachDeck.value);
           break;
@@ -71,8 +64,7 @@ export class BlackJackService {
     return this.deck;
   }
 
-  getCardValue(value, numDecks = 1) {
-
+  getCardValue(value: string, _numDecks = 1): number {
     let retValue = 0;
     switch (value) {
       case '2':

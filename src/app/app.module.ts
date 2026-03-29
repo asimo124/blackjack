@@ -11,12 +11,12 @@ import {NzLayoutModule} from 'ng-zorro-antd/layout';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {NzButtonModule} from 'ng-zorro-antd/button';
-import {NzSelectModule} from 'ng-zorro-antd/select';
-import {NzFormModule} from 'ng-zorro-antd/form';
-import {NzInputModule} from 'ng-zorro-antd/input';
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzGridModule } from 'ng-zorro-antd/grid';
 
 registerLocaleData(en);
 
@@ -33,9 +33,9 @@ registerLocaleData(en);
     NzSelectModule,
     NzFormModule,
     FormsModule,
-    HttpClientModule,
     BrowserAnimationsModule,
-    NzInputModule
+    NzInputModule,
+    NzGridModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US }

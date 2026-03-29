@@ -1,44 +1,46 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {BlackJackService} from './services/black-jack.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { DeckCard } from './models/deck-card';
+import { BlackJackService } from './services/black-jack.service';
 
 @Component({
   selector: 'app-root',
+  standalone: false,
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild('currentCountText') input: ElementRef;
+  @ViewChild('currentCountText') input?: ElementRef<HTMLInputElement>;
 
   public title = 'jack';
 
   public maxCardsNum = 0;
 
   public numPlayers = 2;
-  public playerSpan;
+  public playerSpan = 8;
 
   public numDecks = 1;
-  public deck: any[] = [];
+  public deck: DeckCard[] = [];
 
   public currentDeckIndex = 0;
-  public playerHands: any[] = [];
+  public playerHands: DeckCard[][] = [];
 
   public dealCount = 0;
   public runningCount = 0;
   public guessedRunningCount = 0;
-  public lastGuessedCount = null;
-  public currentCount = null;
+  public lastGuessedCount: number | null = null;
+  public currentCount: number | null = null;
   public invalidCurrentCount = false;
 
-  public hitStack: any[] = [];
-  public playedRounds = [];
-  public currentRound = [];
-  public currentHitRound = [];
+  public hitStack: DeckCard[] = [];
+  public playedRounds: DeckCard[][] = [];
+  public currentRound: DeckCard[] = [];
+  public currentHitRound: DeckCard[] = [];
   public currentRoundIndex = 0;
-  public roundsGuessedCount = [];
-  public roundsGuessedRunningCount = [];
-  public roundsCorrectCount = [];
-  public roundsCorrectRunningCount = [];
+  public roundsGuessedCount: number[] = [];
+  public roundsGuessedRunningCount: number[] = [];
+  public roundsCorrectCount: number[] = [];
+  public roundsCorrectRunningCount: number[] = [];
 
   public logCount = 0;
 
@@ -198,9 +200,7 @@ export class AppComponent implements OnInit {
     }
     this.currentRoundIndex++;
 
-    if (this.input) {
-      this.input.nativeElement.focus();
-    }
+    this.input?.nativeElement.focus();
 
     this.currentRound = [];
     this.hitStack = [];
@@ -327,7 +327,12 @@ export class AppComponent implements OnInit {
     }
   }
 
-  getCardPosition(index) {
-    return String((index) * 20) + 'px';
+  getCardPosition(index: number): string {
+    return String(index * 20) + 'px';
+  }
+
+  get replayRoundCards(): DeckCard[] {
+    const round = this.playedRounds[this.currentRoundIndex];
+    return Array.isArray(round) ? round : [];
   }
 }

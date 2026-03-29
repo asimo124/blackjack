@@ -1,7 +1,7 @@
 <nz-layout  >
   <nz-content>
     <div class="header-row">
-      <button nz-button nzType="danger" (click)="hitPlayer()">Hit Me!</button>
+      <button nz-button nzType="primary" nzDanger (click)="hitPlayer()">Hit Me!</button>
       &nbsp;
       <nz-select [(ngModel)]="numDecks" nzPlaceHolder="Number of Players" (ngModelChange)="changedDecksNum()">
         <nz-option [nzValue]="1" [nzLabel]="'1 Deck'" ></nz-option>
@@ -32,10 +32,10 @@
       <div class="top-row">
         <div nz-row >
           <ng-container *ngFor="let handCards of playerHands" >
-            <div nz-col [nzSpan]="this.playerSpan">
+            <div nz-col [nzSpan]="playerSpan">
               <div class="card-area">
                 <ng-container *ngFor="let card of handCards; let i = index">
-                  <div class="card-each" [style.left]="getCardPosition(i)" [style.z-index]="i + 1">
+                  <div class="card-each" [style.left]="getCardPosition(i)" [style.zIndex]="i + 1">
                     <img [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'" class="card-img"/>
                   </div>
                 </ng-container>
@@ -50,7 +50,7 @@
             <div class="card-area">
 
               <ng-container *ngFor="let card of hitStack; let i = index">
-                <div class="card-each" [style.left]="getCardPosition(i)" [style.z-index]="i + 1">
+                <div class="card-each" [style.left]="getCardPosition(i)" [style.zIndex]="i + 1">
                   <img [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'" class="card-img"/>
                 </div>
               </ng-container>
@@ -63,7 +63,7 @@
     <ng-container *ngIf="isReplayingDeck">
       <div class="main-row">
         <div nz-col [nzSpan]="24">
-          <ng-container *ngFor="let card of playedRounds[this.currentRoundIndex]">
+          <ng-container *ngFor="let card of replayRoundCards">
             <img [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'" class="card-img"/>
           </ng-container>
         </div>
@@ -101,7 +101,7 @@
             <nz-form-item nz-col nzSpan="4">
               <nz-form-label>&nbsp;</nz-form-label>
               <nz-form-control >
-                <button nz-button nzType="danger" (click)="replayDeck()">Replay Deck</button>
+                <button nz-button nzType="primary" nzDanger (click)="replayDeck()">Replay Deck</button>
               </nz-form-control>
             </nz-form-item>
           </ng-container>
