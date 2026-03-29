@@ -1,42 +1,61 @@
-<nz-layout  >
+<nz-layout>
   <nz-content>
     <div class="header-row">
-      <button nz-button nzType="primary" nzDanger (click)="hitPlayer()">Hit Me!</button>
-      &nbsp;
-      <nz-select [(ngModel)]="numDecks" nzPlaceHolder="Number of Players" (ngModelChange)="changedDecksNum()">
-        <nz-option [nzValue]="1" [nzLabel]="'1 Deck'" ></nz-option>
-        <nz-option [nzValue]="2" [nzLabel]="'2 Decks'" ></nz-option>
-        <nz-option [nzValue]="3" [nzLabel]="'3 Decks'" ></nz-option>
-        <nz-option [nzValue]="4" [nzLabel]="'4 Decks'" ></nz-option>
-        <nz-option [nzValue]="5" [nzLabel]="'5 Decks'" ></nz-option>
-        <nz-option [nzValue]="6" [nzLabel]="'6 Decks'" ></nz-option>
-        <nz-option [nzValue]="7" [nzLabel]="'7 Decks'" ></nz-option>
-        <nz-option [nzValue]="8" [nzLabel]="'8 Decks'" ></nz-option>
+      <nz-select
+        [(ngModel)]="numDecks"
+        nzPlaceHolder="Number of Players"
+        (ngModelChange)="changedDecksNum()"
+      >
+        <nz-option [nzValue]="1" [nzLabel]="'1 Deck'"></nz-option>
+        <nz-option [nzValue]="2" [nzLabel]="'2 Decks'"></nz-option>
+        <nz-option [nzValue]="3" [nzLabel]="'3 Decks'"></nz-option>
+        <nz-option [nzValue]="4" [nzLabel]="'4 Decks'"></nz-option>
+        <nz-option [nzValue]="5" [nzLabel]="'5 Decks'"></nz-option>
+        <nz-option [nzValue]="6" [nzLabel]="'6 Decks'"></nz-option>
+        <nz-option [nzValue]="7" [nzLabel]="'7 Decks'"></nz-option>
+        <nz-option [nzValue]="8" [nzLabel]="'8 Decks'"></nz-option>
       </nz-select>
       &nbsp;
-      <nz-select [(ngModel)]="numPlayers" nzPlaceHolder="Number of Players" (ngModelChange)="changedPlayersNum()">
-        <nz-option [nzValue]="2" [nzLabel]="'2 Players'" ></nz-option>
-        <nz-option [nzValue]="3" [nzLabel]="'3 Players'" ></nz-option>
-        <nz-option [nzValue]="4" [nzLabel]="'4 Players'" ></nz-option>
-        <nz-option [nzValue]="5" [nzLabel]="'5 Players'" ></nz-option>
-        <nz-option [nzValue]="6" [nzLabel]="'6 Players'" ></nz-option>
-        <nz-option [nzValue]="7" [nzLabel]="'7 Players'" ></nz-option>
-        <nz-option [nzValue]="8" [nzLabel]="'8 Players'" ></nz-option>
+      <nz-select
+        [(ngModel)]="numPlayers"
+        nzPlaceHolder="Number of Players"
+        (ngModelChange)="changedPlayersNum()"
+      >
+        <nz-option [nzValue]="2" [nzLabel]="'2 Players'"></nz-option>
+        <nz-option [nzValue]="3" [nzLabel]="'3 Players'"></nz-option>
+        <nz-option [nzValue]="4" [nzLabel]="'4 Players'"></nz-option>
+        <nz-option [nzValue]="5" [nzLabel]="'5 Players'"></nz-option>
+        <nz-option [nzValue]="6" [nzLabel]="'6 Players'"></nz-option>
+        <nz-option [nzValue]="7" [nzLabel]="'7 Players'"></nz-option>
+        <nz-option [nzValue]="8" [nzLabel]="'8 Players'"></nz-option>
       </nz-select>
       &nbsp;
-      <button nz-button nzType="default" (click)="restartGame()">Restart</button>
+      <button nz-button nzType="default" (click)="restartGame()">
+        Restart
+      </button>
       &nbsp;
-      <button nz-button nzType="primary" (click)="shuffleAndRestartGame()">Shuffle and Restart</button>
+      <button nz-button nzType="primary" (click)="shuffleAndRestartGame()">
+        Shuffle and Restart
+      </button>
     </div>
     <ng-container *ngIf="!isReplayingDeck">
       <div class="top-row">
-        <div nz-row >
-          <ng-container *ngFor="let handCards of playerHands" >
+        <div nz-row>
+          <ng-container *ngFor="let handCards of playerHands">
             <div nz-col [nzSpan]="playerSpan">
               <div class="card-area">
                 <ng-container *ngFor="let card of handCards; let i = index">
-                  <div class="card-each" [style.left]="getCardPosition(i)" [style.zIndex]="i + 1">
-                    <img [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'" class="card-img"/>
+                  <div
+                    class="card-each"
+                    [style.left]="getCardPosition(i)"
+                    [style.zIndex]="i + 1"
+                  >
+                    <img
+                      [src]="
+                        'assets/cards/' + card.suit + '-' + card.value + '.svg'
+                      "
+                      class="card-img"
+                    />
                   </div>
                 </ng-container>
               </div>
@@ -45,16 +64,23 @@
         </div>
       </div>
       <div class="middle-row">
-        <div nz-row >
+        <div nz-row>
           <div nz-col [nzSpan]="24">
             <div class="card-area">
-
               <ng-container *ngFor="let card of hitStack; let i = index">
-                <div class="card-each" [style.left]="getCardPosition(i)" [style.zIndex]="i + 1">
-                  <img [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'" class="card-img"/>
+                <div
+                  class="card-each"
+                  [style.left]="getCardPosition(i)"
+                  [style.zIndex]="i + 1"
+                >
+                  <img
+                    [src]="
+                      'assets/cards/' + card.suit + '-' + card.value + '.svg'
+                    "
+                    class="card-img"
+                  />
                 </div>
               </ng-container>
-
             </div>
           </div>
         </div>
@@ -64,44 +90,77 @@
       <div class="main-row">
         <div nz-col [nzSpan]="24">
           <ng-container *ngFor="let card of replayRoundCards">
-            <img [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'" class="card-img"/>
+            <img
+              [src]="'assets/cards/' + card.suit + '-' + card.value + '.svg'"
+              class="card-img"
+            />
           </ng-container>
         </div>
       </div>
     </ng-container>
     <div class="bottom-row">
-
       <ng-container *ngIf="!isReplayingDeck">
-        <form nz-form nzLayout='vertical' nz-row>
+        <form nz-form nzLayout="vertical" nz-row>
           <nz-form-item nz-col nzSpan="8">
-            <nz-form-label><span class="body-text" >Round {{ currentRoundIndex }} - Card {{ currentDeckIndex }}</span></nz-form-label>
+            <nz-form-label
+              ><span class="body-text"
+                >Round {{ currentRoundIndex }} - Card
+                {{ currentDeckIndex }}</span
+              ></nz-form-label
+            >
             <nz-form-control>&nbsp;</nz-form-control>
           </nz-form-item>
-          <nz-form-item nz-col nzSpan="6">
-            <nz-form-label nzFor="current_count" >
-              <span class="body-text" >Current Count</span>
+          <nz-form-item nz-col nzSpan="8">
+            <nz-form-label nzFor="current_count">
+              <span class="body-text"
+                >Current Count - (Running Count
+                {{ showRunningCount ? runningCount : "" }})</span
+              >
             </nz-form-label>
             <nz-form-control>
-              <input
-                #currentCountText
+              <nz-input-number
+                #currentCountInput
                 name="current_count"
                 [(ngModel)]="lastGuessedCount"
-                [style.border]="(invalidCurrentCount) ? 'solid 1px red': ''"
-                nz-input type="text"
-                class="ant-input" />
+                [nzMin]="-1000"
+                [nzMax]="1000"
+                [nzStep]="1"
+                [nzStatus]="invalidCurrentCount ? 'error' : ''"
+                [nzKeyboard]="true"
+                [nzControls]="true"
+                nzPlaceHolder="Enter count"
+                style="width: 125px"
+              ></nz-input-number>
+              <button nz-button nzType="primary" nzDanger (click)="hitPlayer()">
+                Hit Me!
+              </button>
+              <button nz-button nzType="primary" (click)="setCountAndDeal()">
+                Next
+              </button>
+              <button
+                nz-button
+                nzType="primary"
+                (click)="showRunningCount = !showRunningCount"
+              >
+                See
+              </button>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item nz-col nzSpan="6">
             <nz-form-label>&nbsp;</nz-form-label>
-            <nz-form-control >
-              <button nz-button nzType="primary" (click)="setCountAndDeal()">Next</button>
-            </nz-form-control>
           </nz-form-item>
           <ng-container *ngIf="canShowReplay">
             <nz-form-item nz-col nzSpan="4">
               <nz-form-label>&nbsp;</nz-form-label>
-              <nz-form-control >
-                <button nz-button nzType="primary" nzDanger (click)="replayDeck()">Replay Deck</button>
+              <nz-form-control>
+                <button
+                  nz-button
+                  nzType="primary"
+                  nzDanger
+                  (click)="replayDeck()"
+                >
+                  Replay Deck
+                </button>
               </nz-form-control>
             </nz-form-item>
           </ng-container>
@@ -109,23 +168,36 @@
       </ng-container>
 
       <ng-container *ngIf="isReplayingDeck">
-
-        <form nz-form nzLayout='vertical' nz-row nzJustify="end" [nzGutter]="[0, 0]">
+        <form
+          nz-form
+          nzLayout="vertical"
+          nz-row
+          nzJustify="end"
+          [nzGutter]="[0, 0]"
+        >
           <nz-form-item nz-col nzSpan="4">
-            <nz-form-label><span class="body-text" >Round {{ currentRoundIndex + 1 }}</span></nz-form-label>
+            <nz-form-label
+              ><span class="body-text"
+                >Round {{ currentRoundIndex + 1 }}</span
+              ></nz-form-label
+            >
             <nz-form-control [style.padding-left]="'20px'">
-              <button nz-button nzType="default" (click)="moveFirst()" >Start</button>
+              <button nz-button nzType="default" (click)="moveFirst()">
+                Start
+              </button>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item nz-col nzSpan="4">
             <nz-form-label>&nbsp;</nz-form-label>
-            <nz-form-control >
-              <button nz-button nzType="primary" (click)="movePrevious()">Previous</button>
+            <nz-form-control>
+              <button nz-button nzType="primary" (click)="movePrevious()">
+                Previous
+              </button>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item nz-col nzSpan="4">
-            <nz-form-label nzFor="previous_count" >
-              <span class="body-text" >Guessed Round</span>
+            <nz-form-label nzFor="previous_count">
+              <span class="body-text">Guessed Round</span>
             </nz-form-label>
             <nz-form-control>
               <input
@@ -141,8 +213,8 @@
             </nz-form-control>
           </nz-form-item>
           <nz-form-item nz-col nzSpan="4">
-            <nz-form-label nzFor="current_count" >
-              <span class="body-text" >Guessed Count</span>
+            <nz-form-label nzFor="current_count">
+              <span class="body-text">Guessed Count</span>
             </nz-form-label>
             <nz-form-control>
               <input
@@ -159,62 +231,79 @@
           </nz-form-item>
           <nz-form-item nz-col nzSpan="4">
             <nz-form-label>&nbsp;</nz-form-label>
-            <nz-form-control >
-              <button nz-button nzType="primary" (click)="moveNext();">Next</button>
+            <nz-form-control>
+              <button nz-button nzType="primary" (click)="moveNext()">
+                Next
+              </button>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item nz-col nzSpan="4">
             <nz-form-label>&nbsp;</nz-form-label>
-            <nz-form-control >
-              <button nz-button nzType="default" (click)="moveLast()">End</button>
+            <nz-form-control>
+              <button nz-button nzType="default" (click)="moveLast()">
+                End
+              </button>
             </nz-form-control>
           </nz-form-item>
         </form>
 
-        <form nz-form nzLayout='vertical' nz-row nzJustify="end" [nzGutter]="[0, 0]">
+        <form
+          nz-form
+          nzLayout="vertical"
+          nz-row
+          nzJustify="end"
+          [nzGutter]="[0, 0]"
+        >
           <nz-form-item nz-col nzSpan="4">
             <nz-form-label>&nbsp;</nz-form-label>
-            <nz-form-control >
-              &nbsp;
-            </nz-form-control>
+            <nz-form-control> &nbsp; </nz-form-control>
           </nz-form-item>
           <nz-form-item nz-col nzSpan="4">
             <nz-form-label>&nbsp;</nz-form-label>
-            <nz-form-control >
-              &nbsp;
-            </nz-form-control>
+            <nz-form-control> &nbsp; </nz-form-control>
           </nz-form-item>
           <nz-form-item nz-col nzSpan="4">
-            <nz-form-label nzFor="round_count" >
-              <span class="body-text" >Real Round</span>
+            <nz-form-label nzFor="round_count">
+              <span class="body-text">Real Round</span>
             </nz-form-label>
             <nz-form-control>
-              <input name="round_count" [(ngModel)]="roundsCorrectCount[currentRoundIndex]" readonly nz-input type="text" class="ant-input" [style.width]="'80%'"/>
+              <input
+                name="round_count"
+                [(ngModel)]="roundsCorrectCount[currentRoundIndex]"
+                readonly
+                nz-input
+                type="text"
+                class="ant-input"
+                [style.width]="'80%'"
+              />
             </nz-form-control>
           </nz-form-item>
           <nz-form-item nz-col nzSpan="4">
-            <nz-form-label nzFor="current_count" >
-              <span class="body-text" >Real Count</span>
+            <nz-form-label nzFor="current_count">
+              <span class="body-text">Real Count</span>
             </nz-form-label>
             <nz-form-control>
-              <input name="current_count" [(ngModel)]="roundsCorrectRunningCount[currentRoundIndex]" readonly nz-input type="text" class="ant-input" [style.width]="'80%'" />
+              <input
+                name="current_count"
+                [(ngModel)]="roundsCorrectRunningCount[currentRoundIndex]"
+                readonly
+                nz-input
+                type="text"
+                class="ant-input"
+                [style.width]="'80%'"
+              />
             </nz-form-control>
           </nz-form-item>
           <nz-form-item nz-col nzSpan="4">
             <nz-form-label>&nbsp;</nz-form-label>
-            <nz-form-control >
-              &nbsp;
-            </nz-form-control>
+            <nz-form-control> &nbsp; </nz-form-control>
           </nz-form-item>
           <nz-form-item nz-col nzSpan="4">
             <nz-form-label>&nbsp;</nz-form-label>
-            <nz-form-control >
-              &nbsp;
-            </nz-form-control>
+            <nz-form-control> &nbsp; </nz-form-control>
           </nz-form-item>
         </form>
       </ng-container>
-
     </div>
   </nz-content>
 </nz-layout>

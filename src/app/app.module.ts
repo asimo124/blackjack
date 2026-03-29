@@ -16,6 +16,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzSelectModule } from 'ng-zorro-antd/select';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzInputNumberModule } from 'ng-zorro-antd/input-number';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 
 registerLocaleData(en);
@@ -35,6 +36,7 @@ registerLocaleData(en);
     FormsModule,
     BrowserAnimationsModule,
     NzInputModule,
+    NzInputNumberModule,
     NzGridModule
   ],
   providers: [
